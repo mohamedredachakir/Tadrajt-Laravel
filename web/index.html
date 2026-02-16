@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tadrajt-Laravel</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=IBM+Plex+Sans+Arabic:wght@300;400;600&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <!-- Highlight.js Theme (Dracula for Dark Mode) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/dracula.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+
+<body>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwpC1sFgROfSjPiP68q1dS1T-0bgmVnw6sEg&s"
+                        alt="Laravel Logo" class="laravel-logo">
+                    <h1>Tadrajt-Laravel</h1>
+                </div>
+                <span class="sub-header">بالدارجة و العربية</span>
+            </div>
+
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="بحث...">
+            </div>
+
+            <nav id="nav-menu" class="nav-menu">
+                <!-- Navigation items injected via JS -->
+            </nav>
+        </aside>
+
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+        <main class="content-area">
+            <header class="top-bar">
+                <button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle Sidebar">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+                <div class="breadcrumbs" id="breadcrumbs">الرئيسية</div>
+            </header>
+
+            <div id="content-display" class="content-wrapper">
+                <div class="welcome-screen">
+                    <div class="welcome-icon">🚀</div>
+                    <h1>مرحبا بيكم في Tadrajt-Laravel</h1>
+                    <p class="subtitle">تعلم Laravel بالدارجة المغربية والعربية بطريقة مبسطة.</p>
+                    <div class="quick-start">
+                        <p>كيحتوي هاد الدليل على:</p>
+                        <ul id="stats-list">
+                            <!-- Stats injected via JS -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
