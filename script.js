@@ -14,6 +14,7 @@ const searchInput = document.getElementById('search-input');
 // State
 let sectionsStruture = [];
 
+
 // Parser
 function parseData(data) {
     const lines = data.split('\n');
