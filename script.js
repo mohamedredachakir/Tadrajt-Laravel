@@ -175,6 +175,9 @@ function loadContent(section, item) {
     }
 
     contentHTML += `
+        <div class="content-footer">
+            ${renderFooterNav(section, item)}
+        </div>
         <div style="margin-top: 50px; text-align: center; color: var(--muted-color); padding: 20px;">
             <p>Made with ❤️ for Laravel Community</p>
         </div>
@@ -187,15 +190,129 @@ function loadContent(section, item) {
         contentDisplay.querySelectorAll('pre code').forEach((block) => {
             hljs.highlightElement(block);
         });
+        addCopyButtons();
     }
 
-    // Scroll to top
-    contentDisplay.scrollTo(0, 0);
+    // Scroll to top with smooth behavior
+    contentDisplay.scrollTo({ top: 0, behavior: 'smooth' });
 
     // Mobile: Close sidebar
     if (window.innerWidth <= 768) {
         toggleSidebar(false);
     }
+}
+
+// Render Footer Navigation with "Funny" / "Simple" vibes
+function renderFooterNav(currentSection, currentItem) {
+    // Flatten the structure to find prev/next
+    const flatList = [];
+    sectionsStruture.forEach(sec => {
+        sec.items.forEach(it => {
+            flatList.push({ section: sec, item: it });
+        });
+    });
+
+    const currentIndex = flatList.findIndex(x => x.item.file === currentItem.file);
+    const prev = currentIndex > 0 ? flatList[currentIndex - 1] : null;
+    const next = currentIndex < flatList.length - 1 ? flatList[currentIndex + 1] : null;
+
+    let html = '<div class="nav-buttons-container" style="display: flex; justify-content: space-between; margin-top: 60px; gap: 20px;">';
+
+    if (prev) {
+        html += `
+            <button class="nav-btn prev-btn" onclick="loadContentByFile('${prev.item.file}')">
+                <span class="emoji">👈</span>
+                <div class="text">
+                    <span class="label">Previous</span>
+                    <span class="title">${prev.item.title}</span>
+                </div>
+            </button>
+        `;
+    } else {
+        html += `<div></div>`; // Spacer
+    }
+
+    if (next) {
+        html += `
+            <button class="nav-btn next-btn" onclick="loadContentByFile('${next.item.file}')">
+                <div class="text">
+                    <span class="label">Next Step</span>
+                    <span class="title">${next.item.title}</span>
+                </div>
+                <span class="emoji">👉</span>
+            </button>
+        `;
+    }
+
+    html += '</div>';
+    return html;
+}
+
+// Helper to load by file
+function loadContentByFile(fileName) {
+    // Find the item
+    for (const sec of sectionsStruture) {
+        const item = sec.items.find(i => i.file === fileName);
+        if (item) {
+            loadContent(sec, item);
+            return;
+        }
+    }
+}
+
+function addCopyButtons() {
+    // ... existing implementation ...
+    const preBlocks = document.querySelectorAll('pre');
+    preBlocks.forEach(pre => {
+        // ... same button creation logic ...
+        if (pre.querySelector('.copy-btn')) return;
+
+        const button = document.createElement('button');
+        button.className = 'copy-btn';
+        button.innerHTML = `
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+        `;
+        // Make button style a bit more fun
+        button.style.cssText = `
+            position: absolute;
+            top: 8px; /* Adjusted for header */
+            left: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ccc;
+            border-radius: 6px;
+            padding: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+            opacity: 0.6; /* Higher opacity default */
+            z-index: 10;
+        `;
+
+        // ... rest of event listeners ...
+        pre.appendChild(button);
+
+        pre.addEventListener('mouseenter', () => { button.style.opacity = '1'; });
+        pre.addEventListener('mouseleave', () => { button.style.opacity = '0.6'; });
+
+        button.addEventListener('click', async () => {
+            const code = pre.querySelector('code').innerText;
+            try {
+                await navigator.clipboard.writeText(code);
+                button.innerHTML = `<span style="font-size: 14px">✨</span>`;
+                setTimeout(() => {
+                    button.innerHTML = `
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    `;
+                }, 1500);
+            } catch (err) { }
+        });
+    });
 }
 
 // Filter Functionality
@@ -257,3 +374,5 @@ if (statsList) {
         <li>💡 شرح بالدارجة والعربية</li>
     `;
 }
+
+
