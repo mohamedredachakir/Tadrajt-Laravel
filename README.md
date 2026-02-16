@@ -1,11 +1,6 @@
 <div align="center">
     <img src="https://codecalibre.com/wp-content/uploads/2025/05/Laravel.png" alt="Laravel Logo" width="200">
     <h1>Tadrajt-Laravel 🇲🇦</h1>
-    <p><strong>The Ultimate Laravel Documentation in Moroccan Darija & Arabic</strong></p>
-    
-    <a href="https://laravel.com"><img src="https://img.shields.io/badge/Laravel-10%2B-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel"></a>
-    <img src="https://img.shields.io/badge/Language-Darija%20%2F%20Arabic-green?style=for-the-badge" alt="Language">
-    <img src="https://img.shields.io/badge/Status-Complete-success?style=for-the-badge" alt="Status">
 </div>
 
 ---
