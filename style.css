@@ -133,9 +133,17 @@
     --shadow-glow: 0 0 15px rgba(255, 45, 32, 0.15);
 
     --scrollbar-track: #1a202c;
-    --selection-bg: #ff7eb6;
-    --selection-text: #fff;
-    --code-header-bg: #2d3139;
+    --selection-bg: rgba(56, 189, 248, 0.3);
+    --selection-text: inherit;
+    --code-header-bg: #161b22;
+    /* Github Dark Dimmed Header */
+    --code-bg: #0d1117;
+    /* Github Dark Dimmed Body */
+
+    /* Code Editor Vars */
+    --line-number-color: #484f58;
+    --line-number-bg: #0d1117;
+    --code-font: 'JetBrains Mono', monospace;
 
     /* Spacing */
     --sidebar-width: 320px;
@@ -764,60 +772,179 @@ body {
     transform: rotate(10deg);
 }
 
-.markdown-body code {
+.markdown-body :not(pre)>code {
     font-family: 'JetBrains Mono', monospace;
-    background: rgba(255, 45, 32, 0.1);
-    /* Subtle red tint */
+    background: rgba(139, 148, 158, 0.2);
+    /* Neutral gray/blue tint */
     color: #ff7eb6;
-    padding: 0.2em 0.5em;
+    padding: 0.2em 0.4em;
     border-radius: 6px;
     font-size: 0.9em;
-    border: 1px solid rgba(255, 45, 32, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* Modern Code Editor Window */
 .markdown-body pre {
-    background: #1e1e1e !important;
-    padding: 0;
-    /* Remove padding to handle header */
+    background: var(--code-bg) !important;
     border-radius: 12px;
-    border: 1px solid var(--border-color);
-    overflow: hidden;
-    /* Clip code within radius */
+    border: 1px solid #30363d;
+    /* Subtle border */
     margin: 2.5em 0;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    /* Softer shadow */
     position: relative;
+    padding-top: 44px;
+    /* Header Space */
+    overflow: hidden;
+    direction: ltr;
+    text-align: left;
+    display: flex;
 }
 
-/* macOS Terminal Title Bar */
-.markdown-body pre::before {
-    content: "";
-    display: block;
-    height: 32px;
+/* Editor Header / Title Bar */
+.code-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 44px;
     background: var(--code-header-bg);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    background-image:
-        radial-gradient(circle, #ff5f56 5px, transparent 6px),
-        radial-gradient(circle, #ffbd2e 5px, transparent 6px),
-        radial-gradient(circle, #27c93f 5px, transparent 6px);
-    background-size: 100px 100%;
-    /* Spacing for 3 dots */
-    background-position: 14px center, 29px center, 44px center;
-    /* RTL positions? CSS coords are usually LTR based unless logical props used. Let's assume standard pixels from left/right depending on direction. 
-       Since direction is RTL, background-position usually starts from Right. 
-       Let's try logical positions or just right-aligned dots for RTL? 
-       Actually, macOS buttons are on Left (LTR) or Right (RTL). Let's put them on the Right for RTL context.
-    */
-    background-position: right 14px center, right 34px center, right 54px center;
-    background-repeat: no-repeat;
+    border-bottom: 1px solid #30363d;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    z-index: 5;
+    font-family: var(--code-font);
 }
 
-.markdown-body pre code {
-    display: block;
-    padding: 24px;
+/* Window Controls */
+.window-controls {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    width: 60px;
+    opacity: 0.7;
+    /* Make them subtle */
+    transition: opacity 0.2s;
+}
+
+.code-header:hover .window-controls {
+    opacity: 1;
+}
+
+.window-controls .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.window-controls .dot.red {
+    background: #ff5f56;
+}
+
+.window-controls .dot.yellow {
+    background: #ffbd2e;
+}
+
+.window-controls .dot.green {
+    background: #27c93f;
+}
+
+/* File Title (Clean) */
+.file-title {
+    color: #8b949e;
+    font-size: 0.8rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Copy Button */
+.code-header .copy-btn {
     background: transparent;
-    color: inherit;
-    font-size: 0.95em;
+    border: 1px solid #30363d;
+    color: #8b949e;
+    border-radius: 6px;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.code-header .copy-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #c9d1d9;
+    border-color: #8b949e;
+}
+
+/* Code Content */
+.markdown-body pre code {
+    flex: 1;
+    display: block;
+    padding: 20px 24px;
+    background: transparent !important;
+    color: #c9d1d9;
+    /* Better readability text */
+    font-size: 0.9em;
+    font-family: var(--code-font);
+    line-height: 1.6;
     overflow-x: auto;
+    white-space: pre;
+}
+
+/* Line Numbers */
+.line-numbers-rows {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+    border-right: 1px solid #30363d;
+    background: var(--code-bg);
+    text-align: right;
+    user-select: none;
+    min-width: 44px;
+}
+
+.line-numbers-rows span {
+    counter-increment: linenumber;
+    display: block;
+    padding-right: 16px;
+    color: var(--line-number-color);
+    font-size: 0.9em;
+    font-family: var(--code-font);
+    line-height: 1.6;
+}
+
+.line-numbers-rows span::before {
+    content: counter(linenumber);
+}
+
+.markdown-body pre.has-line-numbers {
+    padding-left: 0;
+    /* Important reset */
+}
+
+/* Scrollbar */
+.markdown-body pre code::-webkit-scrollbar {
+    height: 8px;
+    background: #1e1e2e;
+}
+
+.markdown-body pre code::-webkit-scrollbar-thumb {
+    background: #44475a;
+    border-radius: 4px;
+}
+
+.markdown-body pre code::-webkit-scrollbar-thumb:hover {
+    background: #6272a4;
 }
 
 .markdown-body table {

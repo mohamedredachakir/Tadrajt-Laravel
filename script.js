@@ -186,12 +186,18 @@ function loadContent(section, item) {
 
     contentDisplay.innerHTML = contentHTML;
 
-    // Apply Syntax Highlighting
+    // Syntax Highlighting & Code Block Enhancements
     if (typeof hljs !== 'undefined') {
+        // Configure HLJS
+        hljs.configure({ ignoreUnescapedHTML: true });
+
         contentDisplay.querySelectorAll('pre code').forEach((block) => {
+            // Highlight
             hljs.highlightElement(block);
         });
-        addCopyButtons();
+
+        // Add Line Numbers and Headers
+        enhanceCodeBlocks();
     }
 
     // Initialize Mermaid
@@ -266,59 +272,141 @@ function loadContentByFile(fileName) {
     }
 }
 
-function addCopyButtons() {
-    // ... existing implementation ...
+function enhanceCodeBlocks() {
     const preBlocks = document.querySelectorAll('pre');
-    preBlocks.forEach(pre => {
-        // ... same button creation logic ...
-        if (pre.querySelector('.copy-btn')) return;
 
-        const button = document.createElement('button');
-        button.className = 'copy-btn';
-        button.innerHTML = `
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    preBlocks.forEach(pre => {
+        if (pre.classList.contains('enhanced')) return;
+        pre.classList.add('enhanced');
+
+        const codeBlock = pre.querySelector('code');
+        if (!codeBlock) return;
+
+        // 1. Detect Language & Context
+        let language = 'text';
+        codeBlock.classList.forEach(cls => {
+            if (cls.startsWith('language-') || cls.startsWith('lang-')) {
+                language = cls.replace('language-', '').replace('lang-', '');
+            }
+        });
+
+        // Common Aliases
+        const langMap = {
+            'js': 'JavaScript', 'javascript': 'JavaScript',
+            'ts': 'TypeScript', 'typescript': 'TypeScript',
+            'py': 'Python', 'python': 'Python',
+            'sh': 'Terminal', 'bash': 'Terminal', 'shell': 'Terminal',
+            'php': 'PHP', 'laravel': 'PHP',
+            'html': 'HTML', 'css': 'CSS',
+            'json': 'JSON', 'sql': 'SQL', 'xml': 'XML'
+        };
+
+        let displayTitle = langMap[language.toLowerCase()] || language.toUpperCase();
+
+        // 1.1 Smart Filename Detection
+        // Look for comments like: // app/Models/User.php or # config.yml
+        const lines = codeBlock.innerText.split('\n');
+        if (lines.length > 0) {
+            const firstLine = lines[0].trim();
+            // Regex for common file comments
+            const fileRegex = /^(\/\/|#|<!--)\s*([a-zA-Z0-9_\-\/]+\.[a-z]+)\s*(--)?$/; // Fixed regex to match '-->'
+            const match = firstLine.match(fileRegex);
+
+            if (match && match[2]) {
+                displayTitle = match[2]; // Use filename as title
+            }
+        }
+
+        // 2. Create Header (Clean & Minimal)
+        const header = document.createElement('div');
+        header.className = 'code-header';
+        header.innerHTML = `
+            <div class="window-controls">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+            </div>
+            
+            <div class="file-title">
+                ${getFileIcon(language)}
+                <span>${displayTitle}</span>
+            </div>
+
+            <div class="header-actions"></div>
+        `;
+
+        // 3. Copy Button (Icon Only - Cleaner)
+        const copyBtn = document.createElement('button');
+        copyBtn.className = 'copy-btn';
+        copyBtn.title = "Copy Code";
+        copyBtn.innerHTML = `
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                 <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
             </svg>
         `;
-        // Make button style a bit more fun
-        button.style.cssText = `
-            position: absolute;
-            top: 8px; /* Adjusted for header */
-            left: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #ccc;
-            border-radius: 6px;
-            padding: 5px;
-            cursor: pointer;
-            transition: all 0.2s;
-            opacity: 0.6; /* Higher opacity default */
-            z-index: 10;
-        `;
 
-        // ... rest of event listeners ...
-        pre.appendChild(button);
-
-        pre.addEventListener('mouseenter', () => { button.style.opacity = '1'; });
-        pre.addEventListener('mouseleave', () => { button.style.opacity = '0.6'; });
-
-        button.addEventListener('click', async () => {
-            const code = pre.querySelector('code').innerText;
+        copyBtn.onclick = async () => {
             try {
-                await navigator.clipboard.writeText(code);
-                button.innerHTML = `<span style="font-size: 14px">✨</span>`;
+                await navigator.clipboard.writeText(codeBlock.innerText);
+                const originalContent = copyBtn.innerHTML;
+
+                // Success State
+                copyBtn.innerHTML = `
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #4ade80;">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                `;
+                copyBtn.style.borderColor = "#4ade80";
+
                 setTimeout(() => {
-                    button.innerHTML = `
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    copyBtn.innerHTML = `
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                             <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                         </svg>
                     `;
-                }, 1500);
-            } catch (err) { }
-        });
+                    copyBtn.style.borderColor = "";
+                }, 2000);
+            } catch (err) { console.error('Copy failed', err); }
+        };
+
+        header.querySelector('.header-actions').appendChild(copyBtn);
+        pre.insertBefore(header, codeBlock);
+
+        // 4. Line Numbers
+        // Only add line numbers if > 1 line and not a terminal/bash command (usually 1 liners)
+        const lineCount = lines.length;
+        if (lineCount > 1 && language !== 'bash' && language !== 'sh' && language !== 'terminal') {
+            pre.classList.add('has-line-numbers');
+            const linesContainer = document.createElement('div');
+            linesContainer.className = 'line-numbers-rows';
+
+            // Create spans efficiently
+            let numbersHtml = '';
+            for (let i = 0; i < lineCount; i++) {
+                numbersHtml += '<span></span>';
+            }
+            linesContainer.innerHTML = numbersHtml;
+            pre.appendChild(linesContainer);
+        }
     });
+}
+
+function getFileIcon(lang) {
+    // Simple icon mapping or generic file icon
+    const icons = {
+        'php': '🐘',
+        'javascript': '📜',
+        'js': '📜',
+        'html': '🌐',
+        'css': '🎨',
+        'terminal': '💻',
+        'bash': '💻',
+        'sh': '💻',
+        'sql': '🗄️'
+    };
+    return icons[lang.toLowerCase()] || '📄';
 }
 
 // Filter Functionality
