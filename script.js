@@ -194,6 +194,11 @@ function loadContent(section, item) {
         addCopyButtons();
     }
 
+    // Initialize Mermaid
+    if (typeof mermaid !== 'undefined') {
+        mermaid.init(undefined, contentDisplay.querySelectorAll('.mermaid'));
+    }
+
     // Scroll to top with smooth behavior
     contentDisplay.scrollTo({ top: 0, behavior: 'smooth' });
 

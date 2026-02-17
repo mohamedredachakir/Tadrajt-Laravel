@@ -268,6 +268,11 @@ fullstack-project.md -> Fullstack E-commerce.
 هدف: مراجعة شاملة وأسئلة وأجوبة (Q&A Review).
 concepts-qa.md -> Key Questions & Answers.
 
+15-uml-concepts/
+هدف: تعلم تصميم الأنظمة والمخططات (UML & Design).
+uml-guide.md -> UML Diagrams & Application.
+real-project-diagram.md -> Project Diagram (Q&A).
+
 
 12-final/
 هدف: فيديو وقائمة المصادر (Videos & Resources).
@@ -3138,40 +3143,20 @@ DI هي القوة الخفية ديال لاراڤيل. هي اللي كتخل�
 -   Queued Jobs (Email processing).
 -   Caching (Redis for product list).`,
 
-    "conclusion.md": `# مصادر فيديو وللمزيد (Video Resources & More)
+    "conclusion.md": `# ختاما (Conclusion) 🏁
 
-## 📺 قنوات يوتيوب وكورسات (Video Resources)
-باش تزيد تتعمق فـ Laravel، الفيديو هو أحسن طريقة.
-هاك لائحة ديال أحسن المصادر اللي كننصح بيها:
-
-### 1. **[Laracasts](https://laracasts.com/)** (The Best)
-Jeffrey Way هو "الأب الروحي" ديال التعليم فـ Laravel.
-السيت فيه كورسات "Laravel 8/9/10 From Scratch" مجانية وواعرة بزاف.
-> 💡 **نصيحة:** بدا بـ "Laravel from Scratch".
-
-### 2. **Useful YouTube Channels**
--   **[Laravel Daily (Povilas Korop)](https://www.youtube.com/@LaravelDaily):** فيديوهات قصيرة ومفيدة بزاف على Tips & Tricks.
--   **[Code With Dary](https://www.youtube.com/@CodeWithDary):** شروحات زوينة للمبتدئين.
--   **[Andre Madarang](https://www.youtube.com/@AndreMadarang):** عندو دورات كاملة (E-commerce, Clones).
+## 🔗 روابط مهمة (Useful Links)
+- **Github Profile:** [mohamedredachakir](https://github.com/mohamedredachakir)
+- **LinkedIn:** [Mohamed Reda Chakir](https://www.linkedin.com/in/mohamed-reda-chakir-7339b135a/)
 
 ---
 
-## 🚀 شنو خاصك تتعلم دابا؟ (What to learn next)
-حنا يلاه خربشنا السطح (Scratched the surface). باش تولي **Senior**، شوف هاد المواضيع:
-1.  **Testing:** تعلم **Pest** أو **PHPUnit**. (كود بلا تيست = كود غيطيح).
-2.  **Deployment:** تعلم كيفاش تحط السيت فـ **DigitalOcean** باستعمال **Laravel Forge** أو **Docker**.
-3.  **FilamentPHP:** باش تصاوب Admin Panels فـ 10 دقايق.
-4.  **Inertia.js:** باش تخدم بـ React/Vue وسط Laravel بلا API معقدة.
-
----
-
-## 👨‍� تواصل معي (My Github)
-هاد الدليل هو مجهود باش نعاونو المجتمع المغربي.
-تقدر تلقى كود هاد المشروع ومشاريع أخرى فالـ Github ديالي:
-
-👉 **[Github Profile: mohamedredachakir](https://github.com/mohamedredachakir)**
-
-ما تنساش دير **Follow** و **Star** ⭐️ للمشاريع اللي عجباتك!`,
+## 📚 مصادر للتعمق (More Resources)
+باش تزيد تتعلم كتر، كننصحك بهاد المصادر الرسمية:
+- **Laravel Official Docs:** [laravel.com/docs](https://laravel.com/docs)
+- **Laracasts (Video Tutorials):** [laracasts.com](https://laracasts.com)
+- **Laravel News:** [laravel-news.com](https://laravel-news.com)
+`,
 
     "00-setup.md": `# دليل إنشاء مشروع LocalMind
 
@@ -3581,7 +3566,7 @@ Route::middleware('auth')->group(function () {
 \`\`\`
 هادشي كيضمن بلي غير الناس المسجلين هما اللي يقدرو يشاركو.`,
 
-"concepts-qa.md": `# مفاهيم وأسئلة مهمة (Key Laravel Concepts & Q&A)
+    "concepts-qa.md": `# مفاهيم وأسئلة مهمة (Key Laravel Concepts & Q&A)
 
 ## 📌 علاش هاد الفصل؟
 هاد الفصل كيجاوب على أهم الأسئلة والمفاهيم اللي غتحتاجها باش تفهم وتخدم بـ Laravel مزيان. هو بحال Summary (ملخص) سريع للمفاهيم الأساسية، من البنية (Structure) حتى لقواعد البيانات (Database).
@@ -3886,5 +3871,271 @@ return response()->json([
 php artisan storage:link
 \`\`\`
 هادشي كيخلي \`public/storage\` يشير لـ \`storage/app/public\`.
+`
+    , "uml-guide.md": `# UML Diagrams & Design for Laravel 📐
+## 1. علاش كنحتاجو UML؟ (Why UML?)
+قبل ما تبدا تكودي، خاصك "Plan". الـ UML (Unified Modeling Language) هو اللغة باش كرسمو هاد البلان.
+كيعاونك:
+- **تحلل المشروع (Analysis):** باش تفهم "شنو خاص يدار" قبل "كيفاش يدار".
+- **التواصل (Communication):** باش الفريق كامل (Designers, Developers) يطير فنفس النغمة.
+- **التوثيق (Documentation):** كيبقى عندك "الدليل" ديال المشروع.
+
+## 2. Use Case Diagram (مخطط حالات الاستخدام) 👤
+هادا اول "Diagram" كنبداو بيه. كيوريك "شكون" غيستعمل السيستم و "شنو" يقدر يدير.
+- **Components:**
+  - **Actor (الممثل):** المستخدم (User)، الأدمين (Admin)، أو سيستم خارجي (بحال Payment Gateway).
+  - **Use Case (الحالة):** دوارة فيها Action (مثلا: "تسجيل الدخول", "إضافة منتج").
+  - **System Boundary:** مستطيل كيحصر السيستم ديالنا.
+
+### العلاقات فـ Use Case:
+- **Include:** شي حاجة **ضرورية** وتتكرر (مثلا: "تأكيد الطلب" خاص "Include" "تسجيل الدخول").
+- **Extend:** شي حاجة **إضافية** واختيارية (مثلا: "الدفع عند الاستلام" extend "الدفع").
+
+---
+
+## 3. Class Diagram (مخطط الأصناف) 🏗️
+هادا هو "القلب" ديال Laravel Models. كيورينا البنية (Structure) ديال الداتا والعلاقات بيناتها.
+
+### المكونات:
+- **Class:** مستطيل مقسم لـ 3:
+  1.  **الاسم:** (User, Order).
+  2.  **Attributes (الخصائص):** الحوايج اللي كتميز الكلاس (name: string, email: string). هادو كيتحولو لـ Columns فـ Database.
+  3.  **Operations (العمليات):** شنو تقدر دير (login(), calculateTotal()). هادو كيتحولو لـ Methods فـ Controller/Model.
+
+### أنواع العلاقات والتحويل لـ Laravel:
+أهم حاجة هي الكارديناليتي (1..1, 1..*, *..*)، حيت هي اللي كتقرر العلاقات (hasOne, hasMany...).
+
+#### A. Association (ارتباط عادي) - خط عادي 
+علاقة عادية جوج حوايج مرتبطين.
+
+#### B. Aggregation (تجميع) - لوزانج خاوي <>
+علاقة "جزء من كل" (Whole-Part)، ولكن الجزء يقدر يعيش بلا الكل.
+- **مثال:** القسم (Classroom) والتلميذ (Student). إلا سدينا القسم، التلميذ كيبقى تلميذ ويقدر يمشي لقسم آخر.
+
+#### C. Composition (تركيب) - لوزانج عامر ♦️
+علاقة قوية. الجزء ما يقدرش يعيش بلا الكل.
+- **مثال:** الفاتورة (Invoice) والأسطر ديالها (InvoiceItems). إلا مسحنا الفاتورة، كيتمسحو الأسطر كاملين (Cascade Delete).
+
+#### D. Generalization (Inheritance) - سهم مثلث 🔼
+الوراثة. كلاس كتورث من كلاس أخرى.
+- **مثال:** \`Admin\` و \`Customer\` بجوجهم \`User\`.
+
+---
+
+## 4. تطبيق عملي: من الرسم للكود (Diagram to Laravel) 🚀
+كيفاش تحول هادشي لبروجي Laravel حقيقي؟
+
+### الخطوة 1: Class -> Model & Migration
+كل Class فـ Diagram كتعني Model جديد.
+- **Diagram:** Class \`Product\` (name, price)
+- **Terminal:**
+  \`\`\`bash
+  php artisan make:model Product -m
+  \`\`\`
+- **Migration:**
+  \`\`\`php
+  $table->string('name');
+  $table->decimal('price', 8, 2);
+  \`\`\`
+
+### الخطوة 2: Relationships -> Eloquent Methods
+كنشوفو الكارديناليتي (الأرقام اللي فالخط).
+
+#### 1. One to One (1..1)
+- **مثال:** User عندو Profile واحد.
+- **في User Model:**
+\`\`\`php
+public function profile() {
+    return $this->hasOne(Profile::class);
+}
+\`\`\`
+- **في Profile Model:**
+\`\`\`php
+public function user() {
+    return $this->belongsTo(User::class); // Foreign Key: user_id
+}
+\`\`\`
+
+#### 2. One to Many (1..*)
+- **مثال:** Category فيها بزاف Products.
+- **في Category Model:**
+\`\`\`php
+public function products() {
+    return $this->hasMany(Product::class);
+}
+\`\`\`
+- **في Product Model:**
+\`\`\`php
+public function category() {
+    return $this->belongsTo(Category::class); // Foreign Key: category_id
+}
+\`\`\`
+
+#### 3. Many to Many (*..*)
+- **مثال:** Student كيقرا فبزاف Courses، و Course فيه بزاف Students.
+- **Migration:** خاصنا جدول ثالث وسيط (Pivot Table: \`course_student\`).
+- **في Student Model:**
+\`\`\`php
+public function courses() {
+    return $this->belongsToMany(Course::class);
+}
+\`\`\`
+- **في Course Model:**
+\`\`\`php
+public function students() {
+    return $this->belongsToMany(Student::class);
+}
+\`\`\`
+
+---
+
+## 5. أدوات مقترحة (Recommended Tools) 🛠️
+باش ترسم وتجيب Diagrams:
+1.  **StarUML:** بروفيشنال وكلاسيكي.
+2.  **Draw.io:** ساهل، فابور، وكاين Web Version.
+3.  **Laravel Schema Designer:** كترسم الجداول والعلاقات وهو كيعطيك Migrations واجدين! (نصحك بيه للبداية).
+4.  **MySQL Workbench:** باش ترسم ERD (Entity Relationship Diagram) من Database واجدة (Reverse Engineering).
+`
+    ,
+    "real-project-diagram.md": `# تطبيق عملي: مشروع أسئلة وأجوبة (Q&A App) 🎥
+
+باش نفهمو مزيان، غناخدو المشروع اللي خدامين عليه: **Tadrajt-QA**.
+الهدف: مستخدمين كيطرحو أسئلة، ومستخدمين آخرين كيجاوبو، وكاينة إمكانية "J'aime" (Favorites).
+
+---
+
+## 1. Class Diagram (Visual) 🎨
+هاد الرسم كيوضح العلاقات بين الجداول ديالنا: \`User\`, \`Question\`, \`Response\`, \`Category\`.
+
+<div class="mermaid">classDiagram
+    class User {
+        +int id
+        +string name
+        +string email
+    }
+    class Question {
+        +int id
+        +string title
+        +text content
+        +int user_id
+        +int category_id
+    }
+    class Response {
+        +int id
+        +text content
+        +int user_id
+        +int question_id
+    }
+    class Category {
+        +int id
+        +string name
+    }
+    User "1" --> "*" Question : Has Many
+    User "1" --> "*" Response : Has Many
+    Category "1" --> "*" Question : Has Many
+    Question "1" --> "*" Response : Has Many
+    User "*" --> "*" Question : Favorites</div>
+
+---
+
+## 2. الترجمة لـ Laravel Models & Relationships 💻
+
+### A. User Model
+المستخدم يقدر يكتب بزاف الأسئلة وبزاف الأجوبة.
+\`\`\`php
+class User extends Authenticatable
+{
+    // 1 User -> Many Questions
+    public function questions() {
+        return ->hasMany(Question::class);
+    }
+
+    // 1 User -> Many Responses
+    public function responses() {
+        return ->hasMany(Response::class);
+    }
+
+    // Many Users <-> Many Questions (Favorites)
+    public function favorites() {
+        return ->belongsToMany(Question::class, 'favorites');
+    }
+}
+\`\`\`
+
+### B. Question Model
+السؤال تابع لمستخدم واحد، ومصنف فكاتيكوري وحدة، وعندو بزاف الأجوبة.
+\`\`\`php
+class Question extends Model
+{
+    // Belongs to 1 User
+    public function user() {
+        return ->belongsTo(User::class);
+    }
+
+    // Belongs to 1 Category
+    public function category() {
+        return ->belongsTo(Category::class);
+    }
+
+    // Has Many Responses
+    public function responses() {
+        return ->hasMany(Response::class);
+    }
+}
+\`\`\`
+
+### C. Response Model
+الجواب تابع لسؤال واحد، وكاتبو مستخدم واحد.
+\`\`\`php
+class Response extends Model
+{
+    public function question() {
+        return ->belongsTo(Question::class);
+    }
+
+    public function user() {
+        return ->belongsTo(User::class);
+    }
+}
+\`\`\`
+
+---
+
+## 3. كيفاش كنخدمو بهادشي فـ Controller؟ 🎮
+
+### سيناريو 1: عرض سؤال مع الأجوبة ومولاها
+بغيتي تجيب سؤال، شكون كتبو، وشنو الأجوبة اللي عليه (وشكون كتب كل جواب).
+
+**Eager Loading (with):**
+\`\`\`php
+ = Question::with(['user', 'responses.user'])
+                    ->find(1);
+\`\`\`
+
+**فـ Blade View:**
+\`\`\`blade
+<h1>{{ ->title }}</h1>
+<p>Written by: {{ ->user->name }}</p>
+
+<h2>Responses:</h2>
+@foreach(->responses as )
+    <div class="response">
+        <p>{{ ->content }}</p>
+        <small>By: {{ ->user->name }}</small>
+    </div>
+@endforeach
+\`\`\`
+
+### سيناريو 2: عرض الأسئلة المفضلة للمستخدم
+\`\`\`php
+ = Auth::user();
+ = ->favorites; // كترجع Collection ديال الأسئلة
+\`\`\`
+
+---
+
+## 4. نصيحة ذهبية 🌟
+ديما رسم الـ Diagram فورقة وستيلو (أو فـ Mermaid) **قبل** ما تكتب سطر واحد ديال Code.
+إلا عرفتي العلاقات (1..1, 1..*, *..*)، الكود ديال Laravel كيولي غير "ترجمة" حرفية للرسم ديالك.
 `
 };
